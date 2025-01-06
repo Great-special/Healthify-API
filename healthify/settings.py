@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-
+from decouple import config
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,8 +27,8 @@ SECRET_KEY = 'django-insecure-f7k9nr$h8^ua^66ylsl5%ji_bl=@z1+amc@-r=9y%n(is2@gqx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['.circumeo-apps.net', 'localhost']
+CSRF_TRUSTED_ORIGINS = ["https://b5y-wise-rutherford.circumeo-apps.net", "http://localhost:8000"]
 
 # Application definition
 
@@ -81,12 +82,16 @@ WSGI_APPLICATION = 'healthify.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("PG_DB"),
+        "USER": config("PG_USER"),
+        "PASSWORD": config("PG_PASSWORD"),
+        "HOST": config("PG_HOST"),
+        "PORT": config("PG_PORT"),
+        "SSLMode":config("PG_SSLMODE"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
