@@ -1,0 +1,7 @@
+
+Authentication Endpoints:
+- /auth/users/ (POST: register)
+- /auth/users/me/ (GET: current user)
+- /auth/jwt/create/ (POST: obtain JWT tokens)
+- /auth/jwt/refresh/ (POST: refresh access token)
+- /auth/jwt/verify/ (POST: verify token)
