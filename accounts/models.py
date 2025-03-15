@@ -1,6 +1,18 @@
+import uuid
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator, MinValueValidator
+
+
+class UserEmails(models.Model):
+    email = models.EmailField(unique=True)
+    verification_token = models.UUIDField(default=uuid.uuid4, editable=False)
+    token_expiration = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=24))
+
+    def __str__(self):
+        return f"{self.email}"
+    
 
 
 class CustomUser(AbstractUser):
@@ -14,7 +26,8 @@ class CustomUser(AbstractUser):
         (PHARMACY, 'Pharmacy Store')
     )
     email = models.EmailField(unique=True)
-    type = models.CharField(max_length=100, choices=Types, default=PATIENT)
+    gender = models.CharField(max_length=50, blank=True, null=True)
+    user_type = models.CharField(max_length=100, choices=Types, default=PATIENT)
     
     def __str__(self) -> str:
         return super().__str__()
@@ -48,6 +61,8 @@ class PatientProfile(models.Model):
     bio = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=15, blank=True, null=True)
     nationality = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     
     def __str__(self):
         return self.user_id.username
@@ -110,4 +125,5 @@ class PharmacyStoreProfile(models.Model):
         ('Country'), 
         max_length=100
     )
-    
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)

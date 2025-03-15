@@ -5,3 +5,18 @@ Authentication Endpoints:
 - /auth/jwt/create/ (POST: obtain JWT tokens)
 - /auth/jwt/refresh/ (POST: refresh access token)
 - /auth/jwt/verify/ (POST: verify token)
+
+
+New Authentication Endpoints:
+http://localhost:8000/accounts/submit-email/ (POST)
+http://localhost:8000/accounts/verify-email/<token>/ (GET)
+http://localhost:8000/accounts/complete-registration/ (POST)
+
+
+
+
+Todo:
+1. Add a custom message for the registered users - Not Done
+2. Customize the registrations logic to deactivate the account on registration and activate on email verification. - Not Done
+3. Add Profile creation logic(s) - Not Done
+4. Add 

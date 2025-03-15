@@ -82,14 +82,19 @@ WSGI_APPLICATION = 'healthify.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("PG_DB"),
-        "USER": config("PG_USER"),
-        "PASSWORD": config("PG_PASSWORD"),
-        "HOST": config("PG_HOST"),
-        "PORT": config("PG_PORT"),
-        "SSLMode":config("PG_SSLMODE"),
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": config("PG_DB"),
+    #     "USER": config("PG_USER"),
+    #     "PASSWORD": config("PG_PASSWORD"),
+    #     "HOST": config("PG_HOST"),
+    #     "PORT": config("PG_PORT"),
+    #     "SSLMode":config("PG_SSLMODE"),
+    # }
+    
+    "default":{
+        "ENGINE":"django.db.backends.sqlite3",
+        "NAME":"db.sqlite3"
     }
 }
 
