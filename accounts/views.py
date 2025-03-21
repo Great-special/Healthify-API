@@ -150,27 +150,80 @@ class ChangePasswordView(APIView):
 
 @api_view(['POST',])
 def create_doctors_profile(request):
-    if request.user.is_authenticated():
-        user = request.user
-        if request.method == 'POST':
-            serializer = DoctorsProfileSerializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            obj = serializer.save(commit=False)
-            obj.user_id = user
-            obj.save()
-            
-            return Response(serializer.data)
+    user = request.user
+    if request.method == 'POST':
+        serializer = DoctorsProfileSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user_id=user) # OR serializer.validated_data['user_id'] = user
+        
+        return Response(serializer.data)
 
 
 @api_view()
-def get_doctors(request, id):
-    if id:
-        obj = get_object_or_404(DoctorsProfile, id=id)
-        serializer = DoctorsProfileSerializer(data=obj)
-        return Response(serializer.data)
+def get_doctors(request, id=None):
+    if id != None:
+        try:
+            obj = get_object_or_404(DoctorsProfile, id=id)
+            print(obj, 'obj')
+            serializer = DoctorsProfileSerializer(obj)
+            return Response(serializer.data)
+        except DoctorsProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
     else:
-        queryset = DoctorsProfile.objects.all()
-        serializer = DoctorsProfileSerializer(data=queryset, many=True)
-        return Response(serializer.data)
-
+        try:
+            queryset = DoctorsProfile.objects.all()
+            serializer = DoctorsProfileSerializer(queryset, many=True)
+            return Response(serializer.data)
+        except DoctorsProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
         
+        
+class CreatePatientProfile(APIView):
+    def post(self, request):
+        user = request.user
+        serializer = PatientProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user_id=user)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GetPatientProfile(APIView):
+    def get(self, request, id=None):
+        if id != None:
+            try:
+                obj = get_object_or_404(PatientProfile, id=id)
+                serializer = PatientProfileSerializer(obj)
+                return Response(serializer.data)
+            except PatientProfile.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            try:
+                queryset = PatientProfile.objects.all()
+                serializer = PatientProfileSerializer(queryset, many=True)
+                return Response(serializer.data)
+            except PatientProfile.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CreatePharmacyProfile(APIView):
+    def post(self, request):
+        user = request.user
+        serializer = PharmacyStoreProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user_id=user)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GetPharmacyProfile(APIView):
+    def get(self, request, id=None):
+        try:
+            if id != None:
+                obj = get_object_or_404(PharmacyStoreProfile, id=id)
+                serializer = PharmacyStoreProfileSerializer(obj)
+                return Response(serializer.data)
+            else:
+                queryset = PharmacyStoreProfile.objects.all()
+                serializer = PharmacyStoreProfileSerializer(queryset, many=True)
+                return Response(serializer.data)
+        except PharmacyStoreProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)

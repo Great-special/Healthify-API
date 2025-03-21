@@ -80,15 +80,16 @@ class ResetPasswordSerializer(serializers.Serializer):
 class DoctorsProfileSerializer(serializers.ModelSerializer):
     
     class Meta:
-        Model = DoctorsProfile
-        fields = ('id', 'contact_number', 'address', 'specializations', 'years_of_experience', 'profile_picture')
+        model = DoctorsProfile
+        fields = "__all__"
+
 
 class PatientProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        Model = PatientProfile
-        exclude = ('user_id')
+        model = PatientProfile
+        fields = "__all__"
         
 class PharmacyStoreProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        Model = PharmacyStoreProfile
-        exclude = ('user_id')
+        model = PharmacyStoreProfile
+        fields = "__all__"

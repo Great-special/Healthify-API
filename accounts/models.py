@@ -8,11 +8,14 @@ from django.core.validators import RegexValidator, MinValueValidator
 class UserEmails(models.Model):
     email = models.EmailField(unique=True)
     verification_token = models.UUIDField(default=uuid.uuid4, editable=False)
-    token_expiration = models.DateTimeField(default=timezone.now() + timezone.timedelta(hours=24))
+    token_expiration = models.DateTimeField()
 
     def __str__(self):
         return f"{self.email}"
     
+    def save(self, *args, **kwargs):
+        self.token_expiration = timezone.now() + timezone.timedelta(hours=24)
+        return super().save()
 
 
 class CustomUser(AbstractUser):
@@ -39,7 +42,11 @@ class DoctorsProfile(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     years_of_experience = models.CharField(max_length=100)
     specializations = models.CharField(max_length=100)
+    medical_license_number = models.CharField(max_length=100)
+    practice_address = models.CharField(max_length=100)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    government_id = models.ImageField(upload_to='government_ids/', blank=True, null=True)
+    medical_certificate = models.FileField(upload_to='medical_certificates/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
    
@@ -61,6 +68,14 @@ class PatientProfile(models.Model):
     bio = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=15, blank=True, null=True)
     nationality = models.CharField(max_length=50, blank=True, null=True)
+    past_medical_diagnosis = models.TextField(blank=True, null=True)
+    current_medications = models.TextField(blank=True, null=True)
+    allergies = models.TextField(blank=True, null=True)
+    chronic_conditions = models.TextField(blank=True, null=True)
+    blood_group = models.CharField(max_length=10, blank=True, null=True)
+    weight = models.FloatField(validators=[MinValueValidator(0)], blank=True, null=True)
+    emergency_contact_information = models.CharField(max_length=100, blank=True, null=True)
+    medical_history_reports = models.FileField(upload_to='medical_history_reports/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     

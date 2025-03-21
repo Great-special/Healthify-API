@@ -11,7 +11,10 @@ New Authentication Endpoints:
 http://localhost:8000/accounts/submit-email/ (POST)
 http://localhost:8000/accounts/verify-email/<token>/ (GET)
 http://localhost:8000/accounts/complete-registration/ (POST)
-
+http://localhost:8000/accounts/login/ (POST)
+http://localhost:8000/accounts/forgot-password/ (POST)
+http://localhost:8000/accounts/reset-password/<uuid:token>/ (POST)
+http://localhost:8000/accounts/change-password/ (POST)
 
 
 
