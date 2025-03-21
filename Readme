@@ -18,8 +18,22 @@ http://localhost:8000/accounts/change-password/ (POST)
 
 
 
+http://localhost:8000/accounts/create-doctor-profile/ (POST)
+http://localhost:8000/accounts/get-doctors/<int:id>/ (GET)
+http://localhost:8000/accounts/get-doctors/ (GET)
+
+http://localhost:8000/accounts/create-patient-profile/ (POST)
+http://localhost:8000/accounts/get-patients/ (GET)
+http://localhost:8000/accounts/get-patients/<int:id>/ (GET)
+
+http://localhost:8000/accounts/create-pharmacy-profile/ (POST)
+http://localhost:8000/accounts/get-pharmacy-stores/ (GET)
+http://localhost:8000/accounts/get-pharmacy-stores/<int:id>/ (GET)
+
+
+
 Todo:
 1. Add a custom message for the registered users - Not Done
-2. Customize the registrations logic to deactivate the account on registration and activate on email verification. - Not Done
-3. Add Profile creation logic(s) - Not Done
+2. Customize the registrations logic to deactivate the account on registration and activate on email verification. - Done
+3. Add Profile creation logic(s) - Done
 4. Add 

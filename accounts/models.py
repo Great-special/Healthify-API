@@ -140,5 +140,10 @@ class PharmacyStoreProfile(models.Model):
         ('Country'), 
         max_length=100
     )
+    tax_identification_number = models.CharField(
+        ('Tax Identification Number'), 
+        max_length=50, 
+        unique=True
+    )
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
