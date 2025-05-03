@@ -1,0 +1,186 @@
+{
+    "info": {
+        "_postman_id": "f97b9066-0270-47df-bc09-24351fe6a40d",
+        "name": "Healthify Endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "Register Email",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/accounts/submit-email/",
+                    "path": [
+                        "accounts",
+                        "submit-email"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "email",
+                            "value": "rapsunignu@gufum.com",
+                            "type": "default"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Complete User Registration",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/accounts/complete-registration/",
+                    "path": [
+                        "accounts",
+                        "complete-registration"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"password\":\"admin1234567\",\n  \"confirm_password\":\"admin1234567\",\n  \"email\":\"rapsunignu@gufum.com\",\n  \"username\":\"rapsun\",\n  \"full_name\":\"john doe\",\n  \"gender\":\"male\",\n  \"user_type\":\"doctor\"\n}"
+                }
+            }
+        },
+        {
+            "name": "User Login",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/accounts/login/",
+                    "path": [
+                        "accounts",
+                        "login"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"email\":\"rapsunignu@gufum.com\",\n  \"password\":\"admin1234567\"\n}"
+                }
+            }
+        },
+        {
+            "name": "Get doctors and doctor with id",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8000/accounts/get-doctors/2/",
+                    "path": [
+                        "accounts",
+                        "get-doctors",
+                        "2"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "*/*",
+                        "disabled": true
+                    },
+                    {
+                        "key": "User-Agent",
+                        "value": "Thunder Client (https://www.thunderclient.com)",
+                        "disabled": true
+                    }
+                ],
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyODEzMDU2LCJpYXQiOjE3NDI1NTM4NTYsImp0aSI6IjA0ZTg5MDcxZTE0ZjQ5OGZhMjU3OGQ4ZjE4N2Y3Y2ZkIiwidXNlcl9pZCI6MX0.xm0ItlQ_h6jRH82zCEZPi2wIFTfWyA1C2W1cRVvFB3g",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Create Doctor's Profile",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/accounts/create-doctor-profile/",
+                    "path": [
+                        "accounts",
+                        "create-doctor-profile"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "formdata",
+                    "formdata": [
+                        {
+                            "key": "contact_number",
+                            "value": "55555555",
+                            "type": "default"
+                        },
+                        {
+                            "key": "address",
+                            "value": "plot 99 kabusa road",
+                            "type": "default"
+                        },
+                        {
+                            "key": "specializations",
+                            "value": "Ear",
+                            "type": "default"
+                        },
+                        {
+                            "key": "years_of_experience",
+                            "value": "2",
+                            "type": "default"
+                        }
+                    ]
+                },
+                "auth": {
+                    "type": "bearer",
+                    "bearer": [
+                        {
+                            "key": "token",
+                            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyODEzMDU2LCJpYXQiOjE3NDI1NTM4NTYsImp0aSI6IjA0ZTg5MDcxZTE0ZjQ5OGZhMjU3OGQ4ZjE4N2Y3Y2ZkIiwidXNlcl9pZCI6MX0.xm0ItlQ_h6jRH82zCEZPi2wIFTfWyA1C2W1cRVvFB3g",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

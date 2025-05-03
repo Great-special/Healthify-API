@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'djoser',
     
     'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [

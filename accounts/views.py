@@ -159,25 +159,44 @@ def create_doctors_profile(request):
         return Response(serializer.data)
 
 
-@api_view()
+@api_view(['GET'])
 def get_doctors(request, id=None):
-    if id != None:
-        try:
-            obj = get_object_or_404(DoctorsProfile, id=id)
-            print(obj, 'obj')
-            serializer = DoctorsProfileSerializer(obj)
-            return Response(serializer.data)
-        except DoctorsProfile.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+    if id is not None:
+        obj = get_object_or_404(DoctorsProfile, id=id)
+        serializer = DoctorsProfileSerializer(obj)
+        return Response(serializer.data)
     else:
-        try:
-            queryset = DoctorsProfile.objects.all()
-            serializer = DoctorsProfileSerializer(queryset, many=True)
-            return Response(serializer.data)
-        except DoctorsProfile.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        queryset = DoctorsProfile.objects.all()
+        serializer = DoctorsProfileSerializer(queryset, many=True)
+        return Response(serializer.data)
+
         
-        
+@api_view(['GET'])
+def get_doctors_specialization(request, specialization):
+    queryset = DoctorsProfile.objects.filter(specializations__iexact=specialization)
+    if queryset.exists():
+        serializer = DoctorsProfileSerializer(queryset, many=True)
+        return Response(serializer.data)
+    return Response({'detail': 'No doctor found with this specialization.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['PUT'])
+def update_doctors_profile(request, id):
+    profile = get_object_or_404(DoctorsProfile, id=id)
+    serializer = DoctorsProfileSerializer(profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def delete_doctors_profile(request, id):
+    profile = get_object_or_404(DoctorsProfile, id=id)
+    profile.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class CreatePatientProfile(APIView):
     def post(self, request):
         user = request.user
@@ -203,6 +222,31 @@ class GetPatientProfile(APIView):
                 return Response(serializer.data)
             except PatientProfile.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
+            
+
+class UpdatePatientProfile(APIView):
+    def put(self, request, id):
+        try:
+            profile = get_object_or_404(PatientProfile, id=id)
+            serializer = PatientProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except PatientProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class DeletePatientProfile(APIView):
+    def delete(self, request, id):
+        try:
+            profile = get_object_or_404(PatientProfile, id=id)
+            profile.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except PatientProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 
 class CreatePharmacyProfile(APIView):
     def post(self, request):
@@ -216,14 +260,36 @@ class CreatePharmacyProfile(APIView):
 
 class GetPharmacyProfile(APIView):
     def get(self, request, id=None):
+        if id != None:
+            obj = get_object_or_404(PharmacyStoreProfile, id=id)
+            serializer = PharmacyStoreProfileSerializer(obj)
+            return Response(serializer.data)
+        else:
+            queryset = PharmacyStoreProfile.objects.all()
+            serializer = PharmacyStoreProfileSerializer(queryset, many=True)
+            return Response(serializer.data)
+
+
+class UpdatePharmacyProfile(APIView):
+    def put(self, request, id):
         try:
-            if id != None:
-                obj = get_object_or_404(PharmacyStoreProfile, id=id)
-                serializer = PharmacyStoreProfileSerializer(obj)
+            profile = get_object_or_404(PharmacyStoreProfile, id=id)
+            serializer = PharmacyStoreProfileSerializer(profile, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
                 return Response(serializer.data)
-            else:
-                queryset = PharmacyStoreProfile.objects.all()
-                serializer = PharmacyStoreProfileSerializer(queryset, many=True)
-                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except PharmacyStoreProfile.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class DeletePharmacyProfile(APIView):
+    def delete(self, request, id):
+        try:
+            profile = get_object_or_404(PharmacyStoreProfile, id=id)
+            profile.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except PharmacyStoreProfile.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+
