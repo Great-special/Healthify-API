@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -6,8 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from accounts.serializers import PatientProfileSerializer, DoctorsProfileSerializer
-from .models import Appointment
-from .serializers import AppointmentSerializer, WalletSerializer, NotificationSerializer
+from .models import Appointment, Wallet
+from .serializers import AppointmentSerializer, WalletSerializer
 
 
 # Create your views here.
@@ -19,9 +20,12 @@ def user_dashboard(request):
         "profile": PatientProfileSerializer(request.user.userprofile).data,
         "appointments": AppointmentSerializer(Appointment.objects.filter(user=request.user), many=True).data,
         "wallet": WalletSerializer(Wallet.objects.get(user=request.user)).data,
-        "notifications": NotificationSerializer(Notification.objects.filter(user=request.user), many=True).data,
+        # "notifications": NotificationSerializer(Notification.objects.filter(user=request.user), many=True).data,
     })
 
+
+def index(request):
+    return JsonResponse("Welcome to Healthify API ENDPOINT", safe=False)
 
 class CreateGetAppointment(APIView):
     permission_classes = []

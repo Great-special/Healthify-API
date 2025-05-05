@@ -35,19 +35,19 @@ def generate_wallet_id():
     return _id 
 
 
-TransactionType = [
+TransactionType = (
     ('ADD MONEY', 'ADD MONEY'),
     ('WITHDRAW', 'WITHDRAW'),
     ('TRANSFER', 'TRANSFER'),
     ('PURCHASED', 'PURCHASED'),
-]
+)
 
 
-Status = [
+Status = (
     ('SUCCESSFUL', 'SUCCESSFUL'),
     ('PENDING', 'PENDING'),
     ('FAILED', 'FAILED'),
-]
+)
 
 
 class Appointment(models.Model):
@@ -84,8 +84,8 @@ class Wallet(models.Model):
 
 
 class WalletTransaction(models.Model):
-    receiver_wallet_id = models.CharField(_("wallet id"))
-    sender_wallet_id = models.CharField(_("wallet id"))
+    receiver_wallet_id = models.CharField(_("wallet id"), max_length=7, validators=[MinLengthValidator(7), MaxLengthValidator(7)])
+    sender_wallet_id = models.CharField(_("wallet id"), max_length=7, validators=[MinLengthValidator(7), MaxLengthValidator(7)])
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     transaction_type = models.CharField(max_length=20, choices=TransactionType, default='ADD MONEY')
     status = models.CharField(max_length=20, choices=Status, default='PENDING')

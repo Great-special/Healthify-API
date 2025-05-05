@@ -42,8 +42,8 @@ class DoctorsProfile(models.Model):
     address = models.CharField(max_length=100, blank=True, null=True)
     years_of_experience = models.CharField(max_length=100)
     specializations = models.CharField(max_length=100)
-    medical_license_number = models.CharField(max_length=100)
-    practice_address = models.CharField(max_length=100)
+    medical_license_number = models.CharField(max_length=100, blank=True, null=True)   
+    practice_address = models.CharField(max_length=100, blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     government_id = models.ImageField(upload_to='government_ids/', blank=True, null=True)
     medical_certificate = models.FileField(upload_to='medical_certificates/', blank=True, null=True)
@@ -143,7 +143,9 @@ class PharmacyStoreProfile(models.Model):
     tax_identification_number = models.CharField(
         ('Tax Identification Number'), 
         max_length=50, 
-        unique=True
+        unique=True,
+        null=True,
+        blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)  
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
